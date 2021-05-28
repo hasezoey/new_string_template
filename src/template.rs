@@ -1,10 +1,8 @@
 use std::{collections::HashMap, usize};
 
-use error::TemplateError;
+use crate::error::{TemplateError, TemplateErrorKind};
 use lazy_static::lazy_static;
 use regex::Regex;
-
-pub mod error;
 
 lazy_static! {
     static ref DEFAULT_TEMPLATE: Regex = Regex::new(r"(?mi)\{\s*(\S+)\s*\}").unwrap();
@@ -43,7 +41,7 @@ impl Template {
     /// Create a new Template Instance with the default regex
     /// # Example
     /// ```rust
-    /// # use new_string_template::*;
+    /// # use new_string_template::template::*;
     /// let input_template = "Some {{ Template }}";
     /// let template_instance = Template::new(input_template);
     /// ```
@@ -60,7 +58,7 @@ impl Template {
     /// The regex needs to include one valid capture group
     /// # Example
     /// ```rust
-    /// # use new_string_template::*;
+    /// # use new_string_template::template::*;
     /// # use regex::Regex;
     /// # let template_string = "hello";
     /// # let custom_regex = Regex::new(r"(.*)").unwrap();
@@ -99,7 +97,7 @@ impl Template {
                 _ => {
                     if fail {
                         return Err(TemplateError::new(
-                            error::TemplateErrorKind::MissingData,
+                            TemplateErrorKind::MissingData,
                             format!("Missing Data for Argument \"{}\"", &arg_name),
                         ));
                     }
@@ -124,6 +122,8 @@ impl Template {
     /// This function Errors on the first problem encountered
     /// # Example
     /// ```rust
+    /// # use new_string_template::template::*;
+    /// # use std::collections::HashMap;
     /// let templ_str = "Something {data1} be {data2}, and { not here }";
     /// let templ = Template::new(templ_str);
     /// let data = {
@@ -144,6 +144,8 @@ impl Template {
     /// Returns Full Converted String and no Result
     /// # Example
     /// ```rust
+    /// # use new_string_template::template::*;
+    /// # use std::collections::HashMap;
     /// let templ_str = "Something {data1} be {data2}, and { not here }";
     /// let templ = Template::new(templ_str);
     /// let data = {
