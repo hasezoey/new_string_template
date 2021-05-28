@@ -10,6 +10,6 @@ keywords = ["runtime", "string", "template"]
 
 [dependencies]
 # This is to have the default Regex only compiled once
-lazy_static = "1.4.0"
+lazy_static = "1"
 # This library uses regex's to find matches
 regex = "1"
