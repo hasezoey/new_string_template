@@ -49,8 +49,9 @@ module.exports = {
 		[
 			'@semantic-release/exec',
 			{
-				// bump version in cargo.toml
-				prepare: "cargo bump \"${nextRelease.version}\""
+				prepare: "semantic-release-rust prepare ${nextRelease.version}",
+				publish: "semantic-release-rust publish",
+				verifyConditions: "semantic-release-rust verify-conditions"
 			},
 		],
 		[
