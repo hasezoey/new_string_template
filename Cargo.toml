@@ -7,6 +7,9 @@ license = "MIT"
 description = "Simple Customizable String-Templating Library for Rust."
 categories = ["template-engine", "text-processing"]
 keywords = ["runtime", "string", "template"]
+homepage = "https://github.com/hasezoey/new_string_template"
+repository = "https://github.com/hasezoey/new_string_template"
+readme = "README.md"
 
 [dependencies]
 # This is to have the default Regex only compiled once
