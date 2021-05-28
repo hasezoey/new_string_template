@@ -49,9 +49,9 @@ module.exports = {
 		[
 			'@semantic-release/exec',
 			{
-				prepare: "semantic-release-rust prepare ${nextRelease.version}",
-				publish: "semantic-release-rust publish",
-				verifyConditions: "semantic-release-rust verify-conditions"
+				prepareCmd: "semantic-release-rust prepare ${nextRelease.version}",
+				publishCmd: "semantic-release-rust publish",
+				verifyConditionsCmd: "semantic-release-rust verify-conditions"
 			},
 		],
 		[
