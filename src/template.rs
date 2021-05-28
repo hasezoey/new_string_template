@@ -5,7 +5,8 @@ use lazy_static::lazy_static;
 use regex::Regex;
 
 lazy_static! {
-    static ref DEFAULT_TEMPLATE: Regex = Regex::new(r"(?mi)\{\s*(\S+)\s*\}").unwrap();
+    /// The Default Regex Template
+    pub static ref DEFAULT_TEMPLATE: Regex = Regex::new(r"(?mi)\{\s*(\S+)\s*\}").unwrap();
 }
 
 /// This struct is to simplify usage of 4 "usize"
