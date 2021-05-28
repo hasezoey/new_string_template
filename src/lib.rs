@@ -3,6 +3,8 @@ use std::collections::HashMap;
 use lazy_static::lazy_static;
 use regex::Regex;
 
+pub mod error;
+
 lazy_static! {
     static ref DEFAULT_TEMPLATE: Regex = Regex::new(r"(?mi)\{\s*(\S+)\s*\}").unwrap();
 }
