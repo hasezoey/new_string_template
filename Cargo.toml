@@ -10,6 +10,10 @@ keywords = ["runtime", "string", "template"]
 homepage = "https://github.com/hasezoey/new_string_template"
 repository = "https://github.com/hasezoey/new_string_template"
 readme = "README.md"
+include = [
+    "**/*.rs",
+    "Cargo.toml",
+]
 
 [dependencies]
 # This is to have the default Regex only compiled once
