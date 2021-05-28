@@ -232,7 +232,7 @@ mod test {
     }
 
     #[test]
-    fn test_render_custom_regex() {
+    fn test_render_custom_regex_double_brackets() {
         let custom_regex = Regex::new(r"(?mi)\{\{\s+([^\}]+)\s+\}\}").unwrap();
         let templ_str = "Something {{ data1 }} be {{ data2 }}, and {{ data 3 }}";
         let templ = Template::new(templ_str).with_regex(&custom_regex);
@@ -246,5 +246,20 @@ mod test {
 
         let rendered = templ.render_nofail(&data);
         assert_eq!("Something should be here, and here too", rendered);
+    }
+
+    #[test]
+    fn test_render_custom_regex_single() {
+        let custom_regex = Regex::new(r"(?mi)#(\S+)").unwrap();
+        let templ_str = "Signle character #data1 here";
+        let templ = Template::new(templ_str).with_regex(&custom_regex);
+        let data = {
+            let mut map = HashMap::new();
+            map.insert("data1", "can be seen");
+            map
+        };
+
+        let rendered = templ.render_nofail(&data);
+        assert_eq!("Signle character can be seen here", rendered);
     }
 }
