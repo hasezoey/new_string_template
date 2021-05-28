@@ -23,7 +23,7 @@ jobs:
           toolchain: nightly
           override: true
           components: rustfmt
-      - run: cargo fmt --all -- --check
+      - run: sh ./fmt.sh
 
   # Check clippy.  This doesn't check ARM though.
   clippy:
@@ -36,7 +36,7 @@ jobs:
           toolchain: nightly
           override: true
           components: clippy
-      - run: bash ./clippy.sh
+      - run: sh ./clippy.sh
 
   tests:
     runs-on: ubuntu-latest
