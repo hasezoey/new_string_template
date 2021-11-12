@@ -78,7 +78,7 @@ impl Template {
 	}
 
 	/// Render the template with the provided values
-	fn render_internal(&self, values: &HashMap<&str, &str>, fail: bool) -> Result<String, TemplateError> {
+	fn render_internal<T: AsRef<str>>(&self, values: &HashMap<&str, T>, fail: bool) -> Result<String, TemplateError> {
 		// Early return if there are no matches in the template string
 		if self.matches.is_empty() {
 			return Ok(self.src.clone());
@@ -96,7 +96,7 @@ impl Template {
 
 			// not using "unwrap_or_else" because of the need to return "Err"
 			match values.get(&arg_name) {
-				Some(v) => parts.push(*v),
+				Some(v) => parts.push(v.as_ref()),
 				_ => {
 					if fail {
 						return Err(TemplateError::new(
@@ -121,7 +121,11 @@ impl Template {
 	}
 
 	/// Render the template with the provided values
-	fn render_internal_string(&self, values: &HashMap<String, &str>, fail: bool) -> Result<String, TemplateError> {
+	fn render_internal_string<T: AsRef<str>>(
+		&self,
+		values: &HashMap<String, T>,
+		fail: bool,
+	) -> Result<String, TemplateError> {
 		// Early return if there are no matches in the template string
 		if self.matches.is_empty() {
 			return Ok(self.src.clone());
@@ -139,7 +143,7 @@ impl Template {
 
 			// not using "unwrap_or_else" because of the need to return "Err"
 			match values.get(&arg_name.to_string()) {
-				Some(v) => parts.push(*v),
+				Some(v) => parts.push(v.as_ref()),
 				_ => {
 					if fail {
 						return Err(TemplateError::new(
@@ -182,7 +186,7 @@ impl Template {
 	/// let rendered = templ.render(&data).expect("Expected Result to be Ok");
 	/// assert_eq!("Something should be here, and { not here }", rendered);
 	/// ```
-	pub fn render(&self, values: &HashMap<&str, &str>) -> Result<String, TemplateError> {
+	pub fn render<T: AsRef<str>>(&self, values: &HashMap<&str, T>) -> Result<String, TemplateError> {
 		return self.render_internal(values, true);
 	}
 
@@ -205,7 +209,7 @@ impl Template {
 	/// let rendered = templ.render_string(&data).expect("Expected Result to be Ok");
 	/// assert_eq!("Something should be here, and { not here }", rendered);
 	/// ```
-	pub fn render_string(&self, values: &HashMap<String, &str>) -> Result<String, TemplateError> {
+	pub fn render_string<T: AsRef<str>>(&self, values: &HashMap<String, T>) -> Result<String, TemplateError> {
 		return self.render_internal_string(values, true);
 	}
 
@@ -263,6 +267,21 @@ mod test {
 			let mut map = HashMap::new();
 			map.insert("data1", "should");
 			map.insert("data2", "here");
+			map
+		};
+
+		let rendered = templ.render(&data).expect("Expected Result to be Ok");
+		assert_eq!("Something should be here, and { not here }", rendered);
+	}
+
+	#[test]
+	fn test_render_full_no_error_string_value() {
+		let templ_str = "Something {data1} be {data2}, and { not here }";
+		let templ = Template::new(templ_str);
+		let data = {
+			let mut map = HashMap::new();
+			map.insert("data1", "should".to_string());
+			map.insert("data2", "here".to_string());
 			map
 		};
 
@@ -340,6 +359,21 @@ mod test {
 			let mut map = HashMap::new();
 			map.insert("data1".to_string(), "should");
 			map.insert("data2".to_string(), "here");
+			map
+		};
+
+		let rendered = templ.render_string(&data).expect("Expected Result to be Ok");
+		assert_eq!("Something should be here, and { not here }", rendered);
+	}
+
+	#[test]
+	fn test_render_full_no_error_string_key_string_value() {
+		let templ_str = "Something {data1} be {data2}, and { not here }";
+		let templ = Template::new(templ_str);
+		let data = {
+			let mut map = HashMap::new();
+			map.insert("data1".to_string(), "should".to_string());
+			map.insert("data2".to_string(), "here".to_string());
 			map
 		};
 
