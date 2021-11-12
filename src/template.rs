@@ -72,7 +72,7 @@ impl Template {
 	/// let templ = Template::new(template_string).with_regex(&custom_regex);
 	/// ```
 	pub fn with_regex(mut self, regex: &Regex) -> Self {
-		self.matches = get_matches(&regex, &self.src);
+		self.matches = get_matches(regex, &self.src);
 
 		return self;
 	}
@@ -240,7 +240,7 @@ impl Template {
 
 fn get_matches(regex: &Regex, template: &str) -> Vec<MatchEntry> {
 	return regex
-		.captures_iter(&template)
+		.captures_iter(template)
 		.map(|found| {
 			let outer_match = found.get(0).expect("Match Index 0 was None (Full Match)");
 			let inner_match = found.get(1).expect("Match Index 1 was None (Inner Match)");
