@@ -1,3 +1,16 @@
+## [1.1.0](https://github.com/hasezoey/new_string_template/compare/v1.0.0...v1.1.0) (2021-11-12)
+
+
+### Features
+
+* **template:** add "_string" functions to allow HashMap "String" keys ([d992861](https://github.com/hasezoey/new_string_template/commit/d992861076eeda54b952e002de53c3fe2087ee44))
+* **template:** change HashMap data type to be "AsRef<str>" to allow using "String" as data type ([d8eb8a2](https://github.com/hasezoey/new_string_template/commit/d8eb8a2035ffc6039696448d9457aff84fb0c277))
+
+
+### Style
+
+* **template:** apply clippy suggestions ([8898bfe](https://github.com/hasezoey/new_string_template/commit/8898bfe0d06dc7ae978c5e8bf16dfe5252972bf8))
+
 ## 1.0.0 (2021-05-28)
 
 
