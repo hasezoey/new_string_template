@@ -121,6 +121,49 @@ impl Template {
 	}
 
 	/// Render the template with the provided values
+	fn render_internal_string(&self, values: &HashMap<String, &str>, fail: bool) -> Result<String, TemplateError> {
+		// Early return if there are no matches in the template string
+		if self.matches.is_empty() {
+			return Ok(self.src.clone());
+		}
+
+		// Start with an empty "Vec", but with at least the capacity of "self.matches"
+		let mut parts: Vec<&str> = Vec::with_capacity(self.matches.len());
+		// Save last index of an match, starting with "0"
+		let mut last_index: usize = 0;
+
+		for entry in self.matches.iter() {
+			parts.push(&self.src[last_index..entry.outer_start]);
+
+			let arg_name = &self.src[entry.inner_start..entry.inner_end];
+
+			// not using "unwrap_or_else" because of the need to return "Err"
+			match values.get(&arg_name.to_string()) {
+				Some(v) => parts.push(*v),
+				_ => {
+					if fail {
+						return Err(TemplateError::new(
+							TemplateErrorKind::MissingData,
+							format!("Missing Data for Argument \"{}\"", &arg_name),
+						));
+					}
+
+					parts.push(&self.src[entry.outer_start..entry.outer_end]);
+				},
+			}
+
+			last_index = entry.outer_end;
+		}
+
+		// if string is not already fully copied, copy the rest of it
+		if last_index < self.src.len() {
+			parts.push(&self.src[last_index..self.src.len()]);
+		}
+
+		return Ok(parts.join(""));
+	}
+
+	/// Render the template with the provided values
 	/// # Errors
 	/// This function Errors on the first problem encountered
 	/// # Example
@@ -141,6 +184,29 @@ impl Template {
 	/// ```
 	pub fn render(&self, values: &HashMap<&str, &str>) -> Result<String, TemplateError> {
 		return self.render_internal(values, true);
+	}
+
+	/// Render the template with the provided values
+	/// # Errors
+	/// This function Errors on the first problem encountered
+	/// # Example
+	/// ```rust
+	/// # use new_string_template::template::*;
+	/// # use std::collections::HashMap;
+	/// let templ_str = "Something {data1} be {data2}, and { not here }";
+	/// let templ = Template::new(templ_str);
+	/// let data = {
+	///     let mut map = HashMap::new();
+	///     map.insert("data1".to_string(), "should");
+	///     map.insert("data2".to_string(), "here");
+	///     map
+	/// };
+	///
+	/// let rendered = templ.render_string(&data).expect("Expected Result to be Ok");
+	/// assert_eq!("Something should be here, and { not here }", rendered);
+	/// ```
+	pub fn render_string(&self, values: &HashMap<String, &str>) -> Result<String, TemplateError> {
+		return self.render_internal_string(values, true);
 	}
 
 	/// Render the template with the provided values
@@ -264,5 +330,20 @@ mod test {
 
 		let rendered = templ.render_nofail(&data);
 		assert_eq!("Signle character can be seen here", rendered);
+	}
+
+	#[test]
+	fn test_render_full_no_error_string_key() {
+		let templ_str = "Something {data1} be {data2}, and { not here }";
+		let templ = Template::new(templ_str);
+		let data = {
+			let mut map = HashMap::new();
+			map.insert("data1".to_string(), "should");
+			map.insert("data2".to_string(), "here");
+			map
+		};
+
+		let rendered = templ.render_string(&data).expect("Expected Result to be Ok");
+		assert_eq!("Something should be here, and { not here }", rendered);
 	}
 }
