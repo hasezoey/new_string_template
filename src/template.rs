@@ -47,7 +47,7 @@ pub struct Template {
 }
 
 impl Template {
-	/// Create a new Template Instance with the default regex
+	/// Create a new Template Instance with the default regex.
 	/// # Example
 	/// ```rust
 	/// # use new_string_template::template::*;
