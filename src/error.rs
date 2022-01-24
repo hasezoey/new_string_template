@@ -1,11 +1,15 @@
+//! Module for the Error of this Crate
+
 use std::error;
 
+/// The Error for this Crate
 #[derive(Debug)]
 pub struct TemplateError {
 	kind:  TemplateErrorKind,
 	error: Box<dyn error::Error + Send + Sync>,
 }
 
+/// The Error kind for [`TemplateError`]
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum TemplateErrorKind {
 	MissingData,
