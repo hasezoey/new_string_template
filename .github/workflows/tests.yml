@@ -91,7 +91,7 @@ jobs:
             profile: minimal
             toolchain: nightly
             override: true
-            components: rustfmt
+            components: rustfmt, clippy
       - name: install extra cargo modules
         run: cargo install semantic-release-rust --version 1.0.0-alpha.8 # TODO: update version when it becomes available
       - name: Semantic Release (publish to npm)
