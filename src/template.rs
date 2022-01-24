@@ -1,3 +1,5 @@
+//! Module to contain everything needed for [`Template`]
+
 use std::{
 	collections::HashMap,
 	usize,
@@ -61,8 +63,8 @@ impl Template {
 		};
 	}
 
-	/// Change used regex to an custom one
-	/// The regex needs to include one valid capture group
+	/// Change the [`Regex`] that is used to resolve the matches from the template string.  
+	/// The [`Regex`] requires to have at least one capture group.
 	/// # Example
 	/// ```rust
 	/// # use new_string_template::template::*;
@@ -77,7 +79,9 @@ impl Template {
 		return self;
 	}
 
-	/// Render the template with the provided values
+	/// Render the template with the provided values.
+	///
+	/// Internal Helper function for [`Template::render`], [`Template::render_string`] and [`Template::render_nofail`].
 	fn render_internal<T: AsRef<str>>(&self, values: &HashMap<&str, T>, fail: bool) -> Result<String, TemplateError> {
 		// Early return if there are no matches in the template string
 		if self.matches.is_empty() {
@@ -120,7 +124,7 @@ impl Template {
 		return Ok(parts.join(""));
 	}
 
-	/// Render the template with the provided values
+	/// Render the template with the provided values.
 	fn render_internal_string<T: AsRef<str>>(
 		&self,
 		values: &HashMap<String, T>,
@@ -167,7 +171,9 @@ impl Template {
 		return Ok(parts.join(""));
 	}
 
-	/// Render the template with the provided values
+	/// Render the template with the provided values.
+	///
+	/// This function takes a [`HashMap`] where the key is [`str`].
 	/// # Errors
 	/// This function Errors on the first problem encountered
 	/// # Example
@@ -190,7 +196,9 @@ impl Template {
 		return self.render_internal(values, true);
 	}
 
-	/// Render the template with the provided values
+	/// Render the template with the provided values.
+	///
+	/// This function takes a [`HashMap`] where the key is [`String`].
 	/// # Errors
 	/// This function Errors on the first problem encountered
 	/// # Example
@@ -213,8 +221,11 @@ impl Template {
 		return self.render_internal_string(values, true);
 	}
 
-	/// Render the template with the provided values
-	/// Returns Full Converted String and no Result
+	/// Render the template with the provided values.
+	///
+	/// This function takes a [`HashMap`] where the key is [`str`].  
+	/// This function always returns a [`String`], this function does not error or panic.  
+	/// If [`Template::render`] returned a [`Err`], this function will instead return the raw Template string.
 	/// # Example
 	/// ```rust
 	/// # use new_string_template::template::*;
@@ -238,6 +249,7 @@ impl Template {
 	}
 }
 
+/// Helper function to execute a [`Regex`] and get all the matches
 fn get_matches(regex: &Regex, template: &str) -> Vec<MatchEntry> {
 	return regex
 		.captures_iter(template)
