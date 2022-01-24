@@ -10,7 +10,7 @@ Add this to your `Cargo.toml` (or use `cargo-add`):
 
 ```toml
 [dependencies]
-new_string_template = "1.1"
+new_string_template = "1.2"
 ```
 
 Example with 2 data points (with fail enabled):

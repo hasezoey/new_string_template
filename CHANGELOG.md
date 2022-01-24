@@ -1,3 +1,12 @@
+## [1.2.0](https://github.com/hasezoey/new_string_template/compare/v1.1.0...v1.2.0) (2022-01-24)
+
+
+### Features
+
+* **error::TemplateError:** implement "Display" and "Error" ([d651d7d](https://github.com/hasezoey/new_string_template/commit/d651d7da559ff0469482b4a4e483c0f8bed0882e))
+* **template::render_nofail*:** replace HashMap value with generic to match other functions ([3932c9a](https://github.com/hasezoey/new_string_template/commit/3932c9a27f31a90aca3a745b493d68b542b5ab7b))
+* **template::Template:** add function "render_nofail_string" ([0065ac2](https://github.com/hasezoey/new_string_template/commit/0065ac25046df52c0c91b0c6ae3a2a202e4bc4c6))
+
 ## [1.1.0](https://github.com/hasezoey/new_string_template/compare/v1.0.0...v1.1.0) (2021-11-12)
 
 
