@@ -45,6 +45,23 @@ module.exports = {
 				}
 			}
 		],
+		[
+			// Replace install example code
+			"@google/semantic-release-replace-plugin",
+			{
+				"replacements": [
+					{
+						"files": [
+							"README.md",
+							"src/lib.rs"
+						],
+						"from": "new_string_template = \".*\"",
+						// The following convert "1.2.3" to "1.2"
+						"to": "new_string_template = \"${nextRelease.version.substring(0, nextRelease.version.lastIndexOf('.'))}\"",
+					}
+				]
+			}
+		],
 		'@semantic-release/changelog',
 		[
 			'@semantic-release/exec',
@@ -56,7 +73,7 @@ module.exports = {
 		],
 		[
 			'@semantic-release/git', {
-				assets: ['Cargo.toml', 'CHANGELOG.md'],
+				assets: ['Cargo.toml', 'CHANGELOG.md', 'README.md', 'src/lib.rs'],
 				message: 'release: v${nextRelease.version}'
 			}
 		],
