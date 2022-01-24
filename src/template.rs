@@ -247,6 +247,33 @@ impl Template {
 			.render_internal(values, false)
 			.unwrap_or_else(|_| return self.src.clone());
 	}
+
+	/// Render the template with the provided values.
+	///
+	/// This function takes a [`HashMap`] where the key is [`String`].  
+	/// This function always returns a [`String`], this function does not error or panic.  
+	/// If [`Template::render_string`] returned a [`Err`], this function will instead return the raw Template string.
+	/// # Example
+	/// ```rust
+	/// # use new_string_template::template::*;
+	/// # use std::collections::HashMap;
+	/// let templ_str = "Something {data1} be {data2}, and { not here }";
+	/// let templ = Template::new(templ_str);
+	/// let data = {
+	///     let mut map = HashMap::new();
+	///     map.insert("data1".to_string(), "should");
+	///     // map.insert("data2", "here");
+	///     map
+	/// };
+	///
+	/// let rendered = templ.render_nofail_string(&data);
+	/// assert_eq!("Something should be {data2}, and { not here }", rendered);
+	/// ```
+	pub fn render_nofail_string(&self, values: &HashMap<String, &str>) -> String {
+		return self
+			.render_internal_string(values, false)
+			.unwrap_or_else(|_| return self.src.clone());
+	}
 }
 
 /// Helper function to execute a [`Regex`] and get all the matches
@@ -328,6 +355,21 @@ mod test {
 		};
 
 		let rendered = templ.render_nofail(&data);
+		assert_eq!("Something should be {data2}, and { not here }", rendered);
+	}
+
+	#[test]
+	fn test_render_nofail_string_full_no_error() {
+		let templ_str = "Something {data1} be {data2}, and { not here }";
+		let templ = Template::new(templ_str);
+		let data = {
+			let mut map = HashMap::new();
+			map.insert("data1".to_string(), "should");
+			// map.insert("data2", "here");
+			map
+		};
+
+		let rendered = templ.render_nofail_string(&data);
 		assert_eq!("Something should be {data2}, and { not here }", rendered);
 	}
 
