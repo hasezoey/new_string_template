@@ -242,7 +242,7 @@ impl Template {
 	/// let rendered = templ.render_nofail(&data);
 	/// assert_eq!("Something should be {data2}, and { not here }", rendered);
 	/// ```
-	pub fn render_nofail(&self, values: &HashMap<&str, &str>) -> String {
+	pub fn render_nofail<T: AsRef<str>>(&self, values: &HashMap<&str, T>) -> String {
 		return self
 			.render_internal(values, false)
 			.unwrap_or_else(|_| return self.src.clone());
@@ -269,7 +269,7 @@ impl Template {
 	/// let rendered = templ.render_nofail_string(&data);
 	/// assert_eq!("Something should be {data2}, and { not here }", rendered);
 	/// ```
-	pub fn render_nofail_string(&self, values: &HashMap<String, &str>) -> String {
+	pub fn render_nofail_string<T: AsRef<str>>(&self, values: &HashMap<String, T>) -> String {
 		return self
 			.render_internal_string(values, false)
 			.unwrap_or_else(|_| return self.src.clone());
