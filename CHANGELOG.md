@@ -1,3 +1,15 @@
+## [1.3.0](https://github.com/hasezoey/new_string_template/compare/v1.2.0...v1.3.0) (2022-03-05)
+
+
+### Features
+
+* **template:** derive all possible traits where possible ([3557591](https://github.com/hasezoey/new_string_template/commit/35575914e7c275aaf53b2183e4acb47950488208)), closes [#3](https://github.com/hasezoey/new_string_template/issues/3)
+
+
+### Style
+
+* add some missing rustdoc ([d0d9f39](https://github.com/hasezoey/new_string_template/commit/d0d9f3967b60e6c7a8538de5716b94540ab54239))
+
 ## [1.2.0](https://github.com/hasezoey/new_string_template/compare/v1.1.0...v1.2.0) (2022-01-24)
 
 
