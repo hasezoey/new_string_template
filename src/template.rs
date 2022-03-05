@@ -27,6 +27,7 @@ struct MatchEntry {
 }
 
 impl MatchEntry {
+	/// Create a new [`MatchEntry`] instance, translating the tuples to inner values
 	pub fn new(outer: (usize, usize), inner: (usize, usize)) -> MatchEntry {
 		return MatchEntry {
 			outer_start: outer.0,

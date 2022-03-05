@@ -16,6 +16,7 @@ pub enum TemplateErrorKind {
 }
 
 impl TemplateError {
+	/// Create a new instance of the Error instance for this library
 	pub fn new<E>(kind: TemplateErrorKind, error: E) -> TemplateError
 	where
 		E: Into<Box<dyn error::Error + Send + Sync>>,
@@ -26,6 +27,7 @@ impl TemplateError {
 		};
 	}
 
+	/// Get the [`TemplateErrorKind`] that his Error instance is
 	pub fn kind(&self) -> TemplateErrorKind {
 		return self.kind;
 	}
