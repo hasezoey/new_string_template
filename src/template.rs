@@ -18,6 +18,7 @@ lazy_static! {
 }
 
 /// This struct is to simplify usage of 4 "usize"
+#[derive(Debug, Clone, PartialEq, Copy)]
 struct MatchEntry {
 	outer_start: usize,
 	outer_end:   usize,
@@ -40,6 +41,7 @@ impl MatchEntry {
 }
 
 /// Struct to store the template
+#[derive(Debug, Clone, PartialEq)]
 pub struct Template {
 	/// Template String
 	src:     String,
