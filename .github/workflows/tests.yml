@@ -92,7 +92,7 @@ jobs:
             toolchain: nightly
             override: true
             components: rustfmt, clippy
-      - name: Publish to cargo
+      - name: Install semantic-release-rust
         run: cargo install semantic-release-rust --version 1.0.0-alpha.8 # TODO: update version when it becomes available
       - name: Semantic Release (github release)
         run: yarn semantic-release
