@@ -14,7 +14,7 @@ use regex::Regex;
 
 lazy_static! {
 	/// The Default Regex Template
-	pub static ref DEFAULT_TEMPLATE: Regex = Regex::new(r"(?mi)\{\s*(\S+)\s*\}").unwrap();
+	pub static ref DEFAULT_TEMPLATE: Regex = Regex::new(r"(?mi)\{\s*(\S+?)\s*\}").unwrap();
 }
 
 /// This struct is to simplify usage of 4 "usize"
@@ -314,6 +314,21 @@ mod test {
 
 		let rendered = templ.render(&data).expect("Expected Result to be Ok");
 		assert_eq!("Something should be here, and { not here }", rendered);
+	}
+
+	#[test]
+	fn test_default_not_greedy() {
+		let templ_str = "Something {data1}{data2}, and { not here }";
+		let templ = Template::new(templ_str);
+		let data = {
+			let mut map = HashMap::new();
+			map.insert("data1", "20");
+			map.insert("data2", "mb");
+			map
+		};
+
+		let rendered = templ.render(&data).expect("Expected Result to be Ok");
+		assert_eq!("Something 20mb, and { not here }", rendered);
 	}
 
 	#[test]
