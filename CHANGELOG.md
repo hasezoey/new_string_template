@@ -1,3 +1,15 @@
+### [1.3.1](https://github.com/hasezoey/new_string_template/compare/v1.3.0...v1.3.1) (2022-05-26)
+
+
+### Fixes
+
+* **template:** change default regex to not be greedy ([b67be7c](https://github.com/hasezoey/new_string_template/commit/b67be7c9833c0191be461d82c9ab1ed54e9e2bbe)), closes [#4](https://github.com/hasezoey/new_string_template/issues/4)
+
+
+### Refactor
+
+* **template::MatchEntry:** rename fields to be more intuitive ([d3fe11c](https://github.com/hasezoey/new_string_template/commit/d3fe11cad04b67cb2133f6127777c5e7f826ed9c))
+
 ## [1.3.0](https://github.com/hasezoey/new_string_template/compare/v1.2.0...v1.3.0) (2022-03-05)
 
 
