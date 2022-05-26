@@ -17,25 +17,32 @@ lazy_static! {
 	pub static ref DEFAULT_TEMPLATE: Regex = Regex::new(r"(?mi)\{\s*(\S+?)\s*\}").unwrap();
 }
 
-/// This struct is to simplify usage of 4 "usize"
+/// This is a Struct to Help with caching matches found
+/// Stores the beginning and end of the full match and the beginning and end of the value name inside the full match
 #[derive(Debug, Clone, PartialEq, Copy)]
 struct MatchEntry {
-	outer_start: usize,
-	outer_end:   usize,
+	/// Offset for the beginning of the full match in a parsed Template String
+	full_match_start: usize,
+	/// Offset for the end of the full match in a parsed Template String
+	/// This refers to the character just after the match (using [`regex::Match::end`])
+	full_match_end:   usize,
 
-	inner_start: usize,
-	inner_end:   usize,
+	/// Offset for the beginning of the value name match in a parsed Template String
+	value_name_start: usize,
+	/// Offset for the end of the value name match in a parsed Template String
+	/// This refers to the character just after the match (using [`regex::Match::end`])
+	value_name_end:   usize,
 }
 
 impl MatchEntry {
 	/// Create a new [`MatchEntry`] instance, translating the tuples to inner values
-	pub fn new(outer: (usize, usize), inner: (usize, usize)) -> MatchEntry {
+	pub fn new(full_match: (usize, usize), value_name: (usize, usize)) -> MatchEntry {
 		return MatchEntry {
-			outer_start: outer.0,
-			outer_end:   outer.1,
+			full_match_start: full_match.0,
+			full_match_end:   full_match.1,
 
-			inner_start: inner.0,
-			inner_end:   inner.1,
+			value_name_start: value_name.0,
+			value_name_end:   value_name.1,
 		};
 	}
 }
@@ -97,9 +104,9 @@ impl Template {
 		let mut last_index: usize = 0;
 
 		for entry in self.matches.iter() {
-			parts.push(&self.src[last_index..entry.outer_start]);
+			parts.push(&self.src[last_index..entry.full_match_start]); // non-inclusive to only copy up-to just before the starting character of the beginning of the match
 
-			let arg_name = &self.src[entry.inner_start..entry.inner_end];
+			let arg_name = &self.src[entry.value_name_start..entry.value_name_end]; // non-inclusive because regex's "end" referes to the character after the match
 
 			// not using "unwrap_or_else" because of the need to return "Err"
 			match values.get(&arg_name) {
@@ -112,16 +119,17 @@ impl Template {
 						));
 					}
 
-					parts.push(&self.src[entry.outer_start..entry.outer_end]);
+					// copy the full match in the template into the final string as a fallback if "fail" is "false"
+					parts.push(&self.src[entry.full_match_start..entry.full_match_end]); // non-inclusive because regex's "end" referes to the character after the match
 				},
 			}
 
-			last_index = entry.outer_end;
+			last_index = entry.full_match_end;
 		}
 
 		// if string is not already fully copied, copy the rest of it
 		if last_index < self.src.len() {
-			parts.push(&self.src[last_index..self.src.len()]);
+			parts.push(&self.src[last_index..self.src.len()]); // non-inclusive because "len" is last index + 1
 		}
 
 		return Ok(parts.join(""));
@@ -144,9 +152,9 @@ impl Template {
 		let mut last_index: usize = 0;
 
 		for entry in self.matches.iter() {
-			parts.push(&self.src[last_index..entry.outer_start]);
+			parts.push(&self.src[last_index..entry.full_match_start]); // non-inclusive to only copy up-to just before the starting character of the beginning of the match
 
-			let arg_name = &self.src[entry.inner_start..entry.inner_end];
+			let arg_name = &self.src[entry.value_name_start..entry.value_name_end]; // non-inclusive because regex's "end" referes to the character after the match
 
 			// not using "unwrap_or_else" because of the need to return "Err"
 			match values.get(&arg_name.to_string()) {
@@ -159,16 +167,17 @@ impl Template {
 						));
 					}
 
-					parts.push(&self.src[entry.outer_start..entry.outer_end]);
+					// copy the full match in the template into the final string as a fallback if "fail" is "false"
+					parts.push(&self.src[entry.full_match_start..entry.full_match_end]); // non-inclusive because regex's "end" referes to the character after the match
 				},
 			}
 
-			last_index = entry.outer_end;
+			last_index = entry.full_match_end;
 		}
 
 		// if string is not already fully copied, copy the rest of it
 		if last_index < self.src.len() {
-			parts.push(&self.src[last_index..self.src.len()]);
+			parts.push(&self.src[last_index..self.src.len()]); // non-inclusive because "len" is last index + 1
 		}
 
 		return Ok(parts.join(""));
@@ -279,17 +288,17 @@ impl Template {
 	}
 }
 
-/// Helper function to execute a [`Regex`] and get all the matches
+/// Helper function to execute a [`Regex`] and get all the matches as [`MatchEntry`]
 fn get_matches(regex: &Regex, template: &str) -> Vec<MatchEntry> {
 	return regex
 		.captures_iter(template)
 		.map(|found| {
-			let outer_match = found.get(0).expect("Match Index 0 was None (Full Match)");
-			let inner_match = found.get(1).expect("Match Index 1 was None (Inner Match)");
+			let full_match = found.get(0).expect("Match Index 0 was None (Full Match)");
+			let value_match = found.get(1).expect("Match Index 1 was None (Inner Match)");
 
 			return MatchEntry::new(
-				(outer_match.start(), outer_match.end()),
-				(inner_match.start(), inner_match.end()),
+				(full_match.start(), full_match.end()),
+				(value_match.start(), value_match.end()),
 			);
 		})
 		.collect();
