@@ -311,6 +311,21 @@ mod test {
 	use super::*;
 
 	#[test]
+	fn test_regex_end_plus1() {
+		// this test tests that "regex::Match::end" returns the index of the next character than the match length
+		// see https://github.com/rust-lang/regex/issues/810#issuecomment-948793203
+		// see https://github.com/rust-lang/regex/discussions/866
+		let string0 = "something { hello } end";
+
+		let cap = DEFAULT_TEMPLATE.captures(string0).expect("expected some captures");
+		let f_m = cap.get(0).expect("expected 0");
+		let v_m = cap.get(1).expect("expected 1");
+
+		assert_eq!((f_m.start(), f_m.end()), (10, 19));
+		assert_eq!((v_m.start(), v_m.end()), (12, 17));
+	}
+
+	#[test]
 	fn test_render_full_no_error() {
 		let templ_str = "Something {data1} be {data2}, and { not here }";
 		let templ = Template::new(templ_str);
