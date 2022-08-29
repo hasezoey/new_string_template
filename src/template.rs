@@ -67,7 +67,7 @@ impl Template {
 	pub fn new<T: Into<String>>(template: T) -> Self {
 		let converted_string = template.into();
 		let matches = get_matches(&DEFAULT_TEMPLATE, &converted_string);
-		return Template {
+		return Self {
 			src: converted_string,
 			matches,
 		};
@@ -104,7 +104,7 @@ impl Template {
 		// Save last index of an match, starting with "0"
 		let mut last_index: usize = 0;
 
-		for entry in self.matches.iter() {
+		for entry in &self.matches {
 			parts.push(&self.src[last_index..entry.full_match_start]); // non-inclusive to only copy up-to just before the starting character of the beginning of the match
 
 			let arg_name = &self.src[entry.value_name_start..entry.value_name_end]; // non-inclusive because regex's "end" referes to the character after the match
@@ -151,7 +151,7 @@ impl Template {
 		// Save last index of an match, starting with "0"
 		let mut last_index: usize = 0;
 
-		for entry in self.matches.iter() {
+		for entry in &self.matches {
 			parts.push(&self.src[last_index..entry.full_match_start]); // non-inclusive to only copy up-to just before the starting character of the beginning of the match
 
 			let arg_name = &self.src[entry.value_name_start..entry.value_name_end]; // non-inclusive because regex's "end" referes to the character after the match

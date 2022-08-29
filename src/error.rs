@@ -17,11 +17,11 @@ pub enum TemplateErrorKind {
 
 impl TemplateError {
 	/// Create a new instance of the Error instance for this library
-	pub fn new<E>(kind: TemplateErrorKind, error: E) -> TemplateError
+	pub fn new<E>(kind: TemplateErrorKind, error: E) -> Self
 	where
 		E: Into<Box<dyn error::Error + Send + Sync>>,
 	{
-		return TemplateError {
+		return Self {
 			kind,
 			error: error.into(),
 		};
