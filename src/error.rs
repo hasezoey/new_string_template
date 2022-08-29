@@ -28,7 +28,8 @@ impl TemplateError {
 	}
 
 	/// Get the [`TemplateErrorKind`] that his Error instance is
-	pub fn kind(&self) -> TemplateErrorKind {
+	#[must_use]
+	pub const fn kind(&self) -> TemplateErrorKind {
 		return self.kind;
 	}
 }
