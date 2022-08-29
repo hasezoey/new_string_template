@@ -36,8 +36,8 @@ struct MatchEntry {
 
 impl MatchEntry {
 	/// Create a new [`MatchEntry`] instance, translating the tuples to inner values
-	pub fn new(full_match: (usize, usize), value_name: (usize, usize)) -> MatchEntry {
-		return MatchEntry {
+	pub const fn new(full_match: (usize, usize), value_name: (usize, usize)) -> Self {
+		return Self {
 			full_match_start: full_match.0,
 			full_match_end:   full_match.1,
 
@@ -83,6 +83,7 @@ impl Template {
 	/// # let custom_regex = Regex::new(r"(.*)").unwrap();
 	/// let templ = Template::new(template_string).with_regex(&custom_regex);
 	/// ```
+	#[must_use]
 	pub fn with_regex(mut self, regex: &Regex) -> Self {
 		self.matches = get_matches(regex, &self.src);
 
@@ -254,6 +255,7 @@ impl Template {
 	/// let rendered = templ.render_nofail(&data);
 	/// assert_eq!("Something should be {data2}, and { not here }", rendered);
 	/// ```
+	#[must_use]
 	pub fn render_nofail<T: AsRef<str>>(&self, values: &HashMap<&str, T>) -> String {
 		return self
 			.render_internal(values, false)
@@ -281,6 +283,7 @@ impl Template {
 	/// let rendered = templ.render_nofail_string(&data);
 	/// assert_eq!("Something should be {data2}, and { not here }", rendered);
 	/// ```
+	#[must_use]
 	pub fn render_nofail_string<T: AsRef<str>>(&self, values: &HashMap<String, T>) -> String {
 		return self
 			.render_internal_string(values, false)
