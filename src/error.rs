@@ -10,7 +10,7 @@ pub struct TemplateError {
 }
 
 /// The Error kind for [`TemplateError`]
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum TemplateErrorKind {
 	MissingData,
 }
