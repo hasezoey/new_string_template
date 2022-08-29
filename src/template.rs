@@ -110,19 +110,18 @@ impl Template {
 			let arg_name = &self.src[entry.value_name_start..entry.value_name_end]; // non-inclusive because regex's "end" referes to the character after the match
 
 			// not using "unwrap_or_else" because of the need to return "Err"
-			match values.get(&arg_name) {
-				Some(v) => parts.push(v.as_ref()),
-				_ => {
-					if fail {
-						return Err(TemplateError::new(
-							TemplateErrorKind::MissingData,
-							format!("Missing Data for Argument \"{}\"", &arg_name),
-						));
-					}
+			if let Some(v) = values.get(&arg_name) {
+				parts.push(v.as_ref());
+			} else {
+				if fail {
+					return Err(TemplateError::new(
+						TemplateErrorKind::MissingData,
+						format!("Missing Data for Argument \"{}\"", &arg_name),
+					));
+				}
 
-					// copy the full match in the template into the final string as a fallback if "fail" is "false"
-					parts.push(&self.src[entry.full_match_start..entry.full_match_end]); // non-inclusive because regex's "end" referes to the character after the match
-				},
+				// copy the full match in the template into the final string as a fallback if "fail" is "false"
+				parts.push(&self.src[entry.full_match_start..entry.full_match_end]); // non-inclusive because regex's "end" referes to the character after the match
 			}
 
 			last_index = entry.full_match_end;
@@ -158,19 +157,18 @@ impl Template {
 			let arg_name = &self.src[entry.value_name_start..entry.value_name_end]; // non-inclusive because regex's "end" referes to the character after the match
 
 			// not using "unwrap_or_else" because of the need to return "Err"
-			match values.get(&arg_name.to_string()) {
-				Some(v) => parts.push(v.as_ref()),
-				_ => {
-					if fail {
-						return Err(TemplateError::new(
-							TemplateErrorKind::MissingData,
-							format!("Missing Data for Argument \"{}\"", &arg_name),
-						));
-					}
+			if let Some(v) = values.get(&arg_name.to_string()) {
+				parts.push(v.as_ref());
+			} else {
+				if fail {
+					return Err(TemplateError::new(
+						TemplateErrorKind::MissingData,
+						format!("Missing Data for Argument \"{}\"", &arg_name),
+					));
+				}
 
-					// copy the full match in the template into the final string as a fallback if "fail" is "false"
-					parts.push(&self.src[entry.full_match_start..entry.full_match_end]); // non-inclusive because regex's "end" referes to the character after the match
-				},
+				// copy the full match in the template into the final string as a fallback if "fail" is "false"
+				parts.push(&self.src[entry.full_match_start..entry.full_match_end]); // non-inclusive because regex's "end" referes to the character after the match
 			}
 
 			last_index = entry.full_match_end;
