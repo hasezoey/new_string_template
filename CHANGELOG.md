@@ -1,3 +1,21 @@
+## [1.4.0](https://github.com/hasezoey/new_string_template/compare/v1.3.1...v1.4.0) (2022-08-30)
+
+
+### Features
+
+* trigger minor version ([223a4d0](https://github.com/hasezoey/new_string_template/commit/223a4d0e6efb0cdcca7d1c27b50d049fd1e96d7a))
+
+
+### Refactor
+
+* **error.rs, template.rs:** :recycle: Nightly clippy controlled cleanup ([b999d8c](https://github.com/hasezoey/new_string_template/commit/b999d8c1753da54805280003bbeb796cf13b0e17))
+* **templates.rs:** change some match statments into if let statments ([5d85b7e](https://github.com/hasezoey/new_string_template/commit/5d85b7e7eb456cc61190d8e554d755d7befcd560))
+
+
+### Style
+
+* fix a typo "an" -> "a" ([fb1db5a](https://github.com/hasezoey/new_string_template/commit/fb1db5a3cee8f0d9cc250327b4207ff8cd5c8414))
+
 ### [1.3.1](https://github.com/hasezoey/new_string_template/compare/v1.3.0...v1.3.1) (2022-05-26)
 
 
