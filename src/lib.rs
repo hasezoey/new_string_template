@@ -73,7 +73,7 @@ let rendered = templ.render_nofail(&data);
 assert_eq!("Something should be here, and here too", rendered);
 ```
 
-Note: with the default regex, an template-variable can have spaces or none at all.
+Note: with the default regex, a template-variable can have spaces or none at all.
 */
 
 pub mod error;

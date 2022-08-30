@@ -80,7 +80,7 @@ fn main() {
 }
 ```
 
-Note: with the default regex, an template-variable can have spaces or none at all.
+Note: with the default regex, a template-variable can have spaces or none at all.
 
 ## Working on this Project
 
