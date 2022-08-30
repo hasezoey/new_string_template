@@ -3,7 +3,9 @@
 
 ### Features
 
-* trigger minor version ([223a4d0](https://github.com/hasezoey/new_string_template/commit/223a4d0e6efb0cdcca7d1c27b50d049fd1e96d7a))
+* add full Eq to TemplateErrorKind ([5751b8f0](https://github.com/hasezoey/new_string_template/commit/5751b8f0b884a8d87a095867680057c9450d619a))
+* make MatchEntry::new() consts ([9c9d5d2c](https://github.com/hasezoey/new_string_template/commit/9c9d5d2c61880b4ff74e8d41a4254a8516d3aa82))
+* make TemplateError:kind() consts ([7b1f8b07](https://github.com/hasezoey/new_string_template/commit/7b1f8b07f2232a2dfcc0d3995e61a6215a633bad))
 
 
 ### Refactor
