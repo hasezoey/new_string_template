@@ -86,4 +86,4 @@ Note: with the default regex, a template-variable can have spaces or none at all
 
 This project requires:
 - NodeJS with `yarn` installed (when working on an main branch)
-- Rust install with `rustfmt` & `clippy`
+- Rust install with `rustfmt` & `clippy` (nightly version of mentioned components), see [`fmt.sh`](./fmt.sh) and [`clippy.sh`](./clippy.sh)
