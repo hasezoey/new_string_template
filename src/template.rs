@@ -36,8 +36,8 @@ struct MatchEntry {
 
 impl MatchEntry {
 	/// Create a new [`MatchEntry`] instance, translating the tuples to inner values
-	pub fn new(full_match: (usize, usize), value_name: (usize, usize)) -> MatchEntry {
-		return MatchEntry {
+	pub const fn new(full_match: (usize, usize), value_name: (usize, usize)) -> Self {
+		return Self {
 			full_match_start: full_match.0,
 			full_match_end:   full_match.1,
 
@@ -67,7 +67,7 @@ impl Template {
 	pub fn new<T: Into<String>>(template: T) -> Self {
 		let converted_string = template.into();
 		let matches = get_matches(&DEFAULT_TEMPLATE, &converted_string);
-		return Template {
+		return Self {
 			src: converted_string,
 			matches,
 		};
@@ -83,6 +83,7 @@ impl Template {
 	/// # let custom_regex = Regex::new(r"(.*)").unwrap();
 	/// let templ = Template::new(template_string).with_regex(&custom_regex);
 	/// ```
+	#[must_use]
 	pub fn with_regex(mut self, regex: &Regex) -> Self {
 		self.matches = get_matches(regex, &self.src);
 
@@ -103,25 +104,24 @@ impl Template {
 		// Save last index of an match, starting with "0"
 		let mut last_index: usize = 0;
 
-		for entry in self.matches.iter() {
+		for entry in &self.matches {
 			parts.push(&self.src[last_index..entry.full_match_start]); // non-inclusive to only copy up-to just before the starting character of the beginning of the match
 
 			let arg_name = &self.src[entry.value_name_start..entry.value_name_end]; // non-inclusive because regex's "end" referes to the character after the match
 
 			// not using "unwrap_or_else" because of the need to return "Err"
-			match values.get(&arg_name) {
-				Some(v) => parts.push(v.as_ref()),
-				_ => {
-					if fail {
-						return Err(TemplateError::new(
-							TemplateErrorKind::MissingData,
-							format!("Missing Data for Argument \"{}\"", &arg_name),
-						));
-					}
+			if let Some(v) = values.get(&arg_name) {
+				parts.push(v.as_ref());
+			} else {
+				if fail {
+					return Err(TemplateError::new(
+						TemplateErrorKind::MissingData,
+						format!("Missing Data for Argument \"{}\"", &arg_name),
+					));
+				}
 
-					// copy the full match in the template into the final string as a fallback if "fail" is "false"
-					parts.push(&self.src[entry.full_match_start..entry.full_match_end]); // non-inclusive because regex's "end" referes to the character after the match
-				},
+				// copy the full match in the template into the final string as a fallback if "fail" is "false"
+				parts.push(&self.src[entry.full_match_start..entry.full_match_end]); // non-inclusive because regex's "end" referes to the character after the match
 			}
 
 			last_index = entry.full_match_end;
@@ -151,25 +151,24 @@ impl Template {
 		// Save last index of an match, starting with "0"
 		let mut last_index: usize = 0;
 
-		for entry in self.matches.iter() {
+		for entry in &self.matches {
 			parts.push(&self.src[last_index..entry.full_match_start]); // non-inclusive to only copy up-to just before the starting character of the beginning of the match
 
 			let arg_name = &self.src[entry.value_name_start..entry.value_name_end]; // non-inclusive because regex's "end" referes to the character after the match
 
 			// not using "unwrap_or_else" because of the need to return "Err"
-			match values.get(&arg_name.to_string()) {
-				Some(v) => parts.push(v.as_ref()),
-				_ => {
-					if fail {
-						return Err(TemplateError::new(
-							TemplateErrorKind::MissingData,
-							format!("Missing Data for Argument \"{}\"", &arg_name),
-						));
-					}
+			if let Some(v) = values.get(&arg_name.to_string()) {
+				parts.push(v.as_ref());
+			} else {
+				if fail {
+					return Err(TemplateError::new(
+						TemplateErrorKind::MissingData,
+						format!("Missing Data for Argument \"{}\"", &arg_name),
+					));
+				}
 
-					// copy the full match in the template into the final string as a fallback if "fail" is "false"
-					parts.push(&self.src[entry.full_match_start..entry.full_match_end]); // non-inclusive because regex's "end" referes to the character after the match
-				},
+				// copy the full match in the template into the final string as a fallback if "fail" is "false"
+				parts.push(&self.src[entry.full_match_start..entry.full_match_end]); // non-inclusive because regex's "end" referes to the character after the match
 			}
 
 			last_index = entry.full_match_end;
@@ -254,6 +253,7 @@ impl Template {
 	/// let rendered = templ.render_nofail(&data);
 	/// assert_eq!("Something should be {data2}, and { not here }", rendered);
 	/// ```
+	#[must_use]
 	pub fn render_nofail<T: AsRef<str>>(&self, values: &HashMap<&str, T>) -> String {
 		return self
 			.render_internal(values, false)
@@ -281,6 +281,7 @@ impl Template {
 	/// let rendered = templ.render_nofail_string(&data);
 	/// assert_eq!("Something should be {data2}, and { not here }", rendered);
 	/// ```
+	#[must_use]
 	pub fn render_nofail_string<T: AsRef<str>>(&self, values: &HashMap<String, T>) -> String {
 		return self
 			.render_internal_string(values, false)

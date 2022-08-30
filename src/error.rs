@@ -10,25 +10,26 @@ pub struct TemplateError {
 }
 
 /// The Error kind for [`TemplateError`]
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum TemplateErrorKind {
 	MissingData,
 }
 
 impl TemplateError {
 	/// Create a new instance of the Error instance for this library
-	pub fn new<E>(kind: TemplateErrorKind, error: E) -> TemplateError
+	pub fn new<E>(kind: TemplateErrorKind, error: E) -> Self
 	where
 		E: Into<Box<dyn error::Error + Send + Sync>>,
 	{
-		return TemplateError {
+		return Self {
 			kind,
 			error: error.into(),
 		};
 	}
 
 	/// Get the [`TemplateErrorKind`] that his Error instance is
-	pub fn kind(&self) -> TemplateErrorKind {
+	#[must_use]
+	pub const fn kind(&self) -> TemplateErrorKind {
 		return self.kind;
 	}
 }
