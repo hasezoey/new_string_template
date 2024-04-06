@@ -15,9 +15,9 @@ include = ["**/*.rs", "Cargo.toml"]
 
 [dependencies]
 # This is to have the default Regex only compiled once
-lazy_static = "1"
+lazy_static = "1.4.0"
 # This library uses regex's to find matches
-regex = "1"
+regex = "1.5.5"
 
 [lints.clippy]
 correctness = { level = "deny", priority = -1 }
