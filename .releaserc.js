@@ -65,7 +65,7 @@ module.exports = {
 		'@semantic-release-cargo/semantic-release-cargo',
 		[
 			'@semantic-release/git', {
-				assets: ['Cargo.toml', 'CHANGELOG.md', 'README.md', 'src/lib.rs'],
+				assets: ['Cargo.toml', 'Cargo.lock', 'CHANGELOG.md', 'README.md', 'src/lib.rs'],
 				message: 'release: v${nextRelease.version}'
 			}
 		],
