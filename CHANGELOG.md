@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/hasezoey/new_string_template/compare/v1.5.0...v1.5.1) (2024-04-06)
+
+
+### Fixes
+
+* **releaserc:** try option "no_dirty" ([8a15c7e](https://github.com/hasezoey/new_string_template/commit/8a15c7eb7d76b71d9972888227198f8ff2ba5281))
+
 ## [1.5.0](https://github.com/hasezoey/new_string_template/compare/v1.4.0...v1.5.0) (2024-04-06)
 
 
