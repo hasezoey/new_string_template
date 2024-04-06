@@ -10,6 +10,7 @@ keywords = ["runtime", "string", "template"]
 homepage = "https://github.com/hasezoey/new_string_template"
 repository = "https://github.com/hasezoey/new_string_template"
 readme = "README.md"
+rust-version = "1.40"
 include = ["**/*.rs", "Cargo.toml"]
 
 [dependencies]

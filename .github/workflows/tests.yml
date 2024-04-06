@@ -39,7 +39,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        toolchain: [stable, nightly]
+        toolchain: [stable, nightly, "1.40"]
     steps:
       - uses: actions/checkout@v4
         if: github.event.inputs.git-ref == ''
