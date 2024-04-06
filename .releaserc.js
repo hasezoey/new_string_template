@@ -62,7 +62,12 @@ module.exports = {
 			}
 		],
 		'@semantic-release/changelog',
-		'@semantic-release-cargo/semantic-release-cargo',
+		[
+            '@semantic-release-cargo/semantic-release-cargo',
+            {
+                no_dirty: true
+            }
+        ],
 		[
 			'@semantic-release/git', {
 				assets: ['Cargo.toml', 'Cargo.lock', 'CHANGELOG.md', 'README.md', 'src/lib.rs'],
