@@ -1,7 +1,0 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
-# Run format check & fix
-. "$(dirname "$0")/../fmt.sh"
-# Run clippy check
-. "$(dirname "$0")/../clippy.sh"
