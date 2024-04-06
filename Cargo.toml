@@ -18,3 +18,13 @@ include = ["**/*.rs", "Cargo.toml"]
 lazy_static = "1"
 # This library uses regex's to find matches
 regex = "1"
+
+[lints.clippy]
+correctness = { level = "deny", priority = -1 }
+style = { level = "warn", priority = -1 }
+complexity = { level = "warn", priority = -1 }
+perf = { level = "warn", priority = -1 }
+needless_return = "allow"
+implicit_return = "deny"
+needless_doctest_main = "allow"
+tabs_in_doc_comments = "allow"
