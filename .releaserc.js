@@ -46,7 +46,6 @@ module.exports = {
 			}
 		],
 		[
-			// Replace install example code
 			"@google/semantic-release-replace-plugin",
 			{
 				"replacements": [
@@ -63,14 +62,7 @@ module.exports = {
 			}
 		],
 		'@semantic-release/changelog',
-		[
-			'@semantic-release/exec',
-			{
-				prepareCmd: "semantic-release-rust prepare ${nextRelease.version}",
-				publishCmd: "semantic-release-rust publish",
-				verifyConditionsCmd: "semantic-release-rust verify-conditions"
-			},
-		],
+		'@semantic-release-cargo/semantic-release-cargo',
 		[
 			'@semantic-release/git', {
 				assets: ['Cargo.toml', 'CHANGELOG.md', 'README.md', 'src/lib.rs'],

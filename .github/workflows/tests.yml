@@ -58,26 +58,29 @@ jobs:
         run: cargo test --workspace --all-features --no-fail-fast
         env:
           RUST_BACKTRACE: full
-  # publish:
-  #   if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/beta'
-  #   needs: [tests, clippy, rustfmt]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Use Node.js 20
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: 20.x
-  #     - name: Install node_modules
-  #       run: yarn install
-  #     - uses: dtolnay/rust-toolchain@stable
-  #       with:
-  #         toolchain: nightly
-  #         components: rustfmt, clippy
-  #     - name: Install semantic-release-rust
-  #       run: cargo install semantic-release-rust --version 1.0.0-alpha.8 # TODO: update version when it becomes available
-  #     - name: Semantic Release (github release)
-  #       run: yarn semantic-release
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #         CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+  publish:
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/beta'
+    needs: [tests, clippy, rustfmt]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: nightly
+          components: rustfmt, clippy
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@cb425203a562475bca039ba4dbf90c7f9ac790f4 # v4.1.0
+        with:
+          dry_run: true
+          extra_plugins: |
+            @google/semantic-release-replace-plugin
+            @semantic-release/git
+            @semantic-release/changelog
+            @semantic-release/commit-analyzer
+            @semantic-release/release-notes-generator
+            @semantic-release/github
+            @semantic-release-cargo/semantic-release-cargo
+            @commitlint/config-conventional
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
