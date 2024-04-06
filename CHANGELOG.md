@@ -1,3 +1,20 @@
+## [1.5.0](https://github.com/hasezoey/new_string_template/compare/v1.4.0...v1.5.0) (2024-04-06)
+
+
+### Features
+
+* mention MSRV being 1.40 ([f99c846](https://github.com/hasezoey/new_string_template/commit/f99c846d593fb2b367480ed5db71c7d1dde33bd5))
+
+
+### Style
+
+* convert tabs to spaces ([9751443](https://github.com/hasezoey/new_string_template/commit/975144371ac91461330446f091e776f68270ef5b))
+
+
+### Dependencies
+
+* specify full semver ([e352325](https://github.com/hasezoey/new_string_template/commit/e35232557c0611836a218cd03848a1b613e68b8c))
+
 ## [1.4.0](https://github.com/hasezoey/new_string_template/compare/v1.3.1...v1.4.0) (2022-08-30)
 
 
