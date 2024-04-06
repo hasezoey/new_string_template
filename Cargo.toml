@@ -27,4 +27,3 @@ perf = { level = "warn", priority = -1 }
 needless_return = "allow"
 implicit_return = "deny"
 needless_doctest_main = "allow"
-tabs_in_doc_comments = "allow"

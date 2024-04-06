@@ -1,6 +1,6 @@
 # used toolchain: nightly-x86_64-unknown-linux-gnu
 
-hard_tabs = true
+hard_tabs = false
 imports_indent = "Block" # unstable
 imports_layout = "Vertical" # unstable
 indent_style = "Block" # unstable
