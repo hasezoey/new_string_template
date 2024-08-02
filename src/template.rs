@@ -61,7 +61,7 @@ impl Template {
     /// # Example
     /// ```rust
     /// # use new_string_template::template::*;
-    /// let input_template = "Some {{ Template }}";
+    /// let input_template = "Some { Template }";
     /// let template_instance = Template::new(input_template);
     /// ```
     pub fn new<T: Into<String>>(template: T) -> Self {
