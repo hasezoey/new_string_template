@@ -1,3 +1,10 @@
+## [1.5.3](https://github.com/hasezoey/new_string_template/compare/v1.5.2...v1.5.3) (2024-08-02)
+
+
+### Fixes
+
+* **template::new_regex:** add new function to directly create a template instance with a custom regex ([c4aac31](https://github.com/hasezoey/new_string_template/commit/c4aac310c4e76a75455fd1c4462840a4c30c4e78))
+
 ## [1.5.2](https://github.com/hasezoey/new_string_template/compare/v1.5.1...v1.5.2) (2024-08-02)
 
 
