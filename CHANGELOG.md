@@ -1,3 +1,16 @@
+## [1.5.2](https://github.com/hasezoey/new_string_template/compare/v1.5.1...v1.5.2) (2024-08-02)
+
+
+### Style
+
+* **template::DEFAULT_TEMPLATE:** add some more documentation on how the default template works ([eaae228](https://github.com/hasezoey/new_string_template/commit/eaae2288458e372d30fd786c341a6265f5b863ad))
+* **template::new:** fix example using default template ([fabe605](https://github.com/hasezoey/new_string_template/commit/fabe60522b18560755c48481702efeaf38232607))
+
+
+### Reverts
+
+* Revert "fix(releaserc): try option "no_dirty"" ([75092e0](https://github.com/hasezoey/new_string_template/commit/75092e0009e26f282abc4ef79774907b1994d2bd))
+
 ## [1.5.1](https://github.com/hasezoey/new_string_template/compare/v1.5.0...v1.5.1) (2024-04-06)
 
 
