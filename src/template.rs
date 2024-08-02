@@ -101,6 +101,24 @@ impl Template {
         return self;
     }
 
+    /// Create a new Template Instance with a custom regex
+    /// # Example
+    /// ```rust
+    /// # use new_string_template::template::*;
+    /// # use regex::Regex;
+    /// # let template_string = "hello";
+    /// # let custom_regex = Regex::new(r"(.*)").unwrap();
+    /// let templ = Template::new_regex(template_string, &custom_regex);
+    /// ```
+    pub fn new_regex<T: Into<String>>(template: T, regex: &Regex) -> Self {
+        let converted_string = template.into();
+        let matches = get_matches(regex, &converted_string);
+        return Self {
+            src: converted_string,
+            matches,
+        };
+    }
+
     /// Render the template with the provided values.
     ///
     /// Internal Helper function for [`Template::render`], [`Template::render_string`] and [`Template::render_nofail`].
@@ -451,6 +469,21 @@ mod test {
         let custom_regex = Regex::new(r"(?mi)#(\S+)").unwrap();
         let templ_str = "Signle character #data1 here";
         let templ = Template::new(templ_str).with_regex(&custom_regex);
+        let data = {
+            let mut map = HashMap::new();
+            map.insert("data1", "can be seen");
+            map
+        };
+
+        let rendered = templ.render_nofail(&data);
+        assert_eq!("Signle character can be seen here", rendered);
+    }
+
+    #[test]
+    fn test_new_regex() {
+        let custom_regex = Regex::new(r"(?mi)#(\S+)").unwrap();
+        let templ_str = "Signle character #data1 here";
+        let templ = Template::new_regex(templ_str, &custom_regex);
         let data = {
             let mut map = HashMap::new();
             map.insert("data1", "can be seen");
