@@ -14,6 +14,17 @@ use regex::Regex;
 
 lazy_static! {
     /// The Default Regex Template
+    ///
+    /// This template requires a single opening and closing bracket, all whitespaces are ignored between bracket and first non-whitespace (same for ending bracket).
+    ///
+    /// Example:
+    /// ```rs
+    /// "No Data here"
+    /// "{data1}"
+    /// "{ data1 }"
+    /// "multiple {data1} {data2}"
+    /// "spaces are allowed {data 3} and do not match {data3}!"
+    /// ```
     pub static ref DEFAULT_TEMPLATE: Regex = Regex::new(r"(?mi)\{\s*(\S+?)\s*\}").unwrap();
 }
 
