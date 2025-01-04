@@ -72,6 +72,7 @@ jobs:
         uses: cycjimmy/semantic-release-action@b1b432f13acb7768e0c8efdec416d363a57546f2 # v4.1.1
         with:
           # dry_run: true
+          # "@semantic-release-cargo/semantic-release-cargo" is locked because of https://github.com/semantic-release-cargo/semantic-release-cargo/issues/524
           extra_plugins: |
             semantic-release-replace-plugin
             @semantic-release/git
@@ -79,7 +80,7 @@ jobs:
             @semantic-release/commit-analyzer
             @semantic-release/release-notes-generator
             @semantic-release/github
-            @semantic-release-cargo/semantic-release-cargo
+            @semantic-release-cargo/semantic-release-cargo@2.3.38
             @commitlint/config-conventional
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
