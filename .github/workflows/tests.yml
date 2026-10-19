@@ -69,7 +69,7 @@ jobs:
           toolchain: nightly
           components: rustfmt, clippy
       - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@8be816a60e417d22b0e09b61adc23605036497eb # v7.1.0
+        uses: cycjimmy/semantic-release-action@03595b5eaf44910cf239ff20904cc52d410f97d4 # v8.1.2
         with:
           # dry_run: true
           # "@semantic-release-cargo/semantic-release-cargo" is locked because of https://github.com/semantic-release-cargo/semantic-release-cargo/issues/524
